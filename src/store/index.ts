@@ -32,6 +32,34 @@ export const useStore = defineStore("store", () => {
             displayingView.value = Posts;
     }
 
+
+    if("theme" in localStorage) {
+
+        if(localStorage.getItem("theme") === "light") {
+            document.documentElement.classList.remove("dark");
+
+        } else if(localStorage.getItem("theme") === "dark") {
+
+            document.documentElement.classList.add("dark");
+        }
+
+    } else {
+        localStorage.setItem("theme", "light");
+        document.documentElement.classList.remove("dark");
+    }
+
+    function toggleTheme() {
+        if(localStorage.getItem("theme") === "light") {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+
+        } else if(localStorage.getItem("theme") === "dark") {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+        }
+    }
+
+
     //const resPosts = ref<Post[]>([]);
     const storagePosts = ref<Post[]>([]);
 
@@ -61,5 +89,5 @@ export const useStore = defineStore("store", () => {
         })
     }
 
-    return { displayingView, storagePosts, selectedPost, getStoragePosts, getStorageSelectedPost };
+    return { displayingView, storagePosts, selectedPost, getStoragePosts, getStorageSelectedPost, toggleTheme };
 })

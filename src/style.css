@@ -2,9 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+	@apply duration-200;
+}
+
 @layer components {
     body {
-        @apply bg-stone-300;
+        @apply bg-stone-300 dark:bg-gray-900;
     }
 }
 
