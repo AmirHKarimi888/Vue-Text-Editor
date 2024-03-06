@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { HeaderView } from "./components";
-import { useStore } from "./store";
+import { useStore, useUsersStore } from "./store";
 
-onMounted(() => {
-    
+onMounted(async () => {
+    await useUsersStore()
+    .getSignedInUser()
+    .then(() => console.log(useUsersStore().loggedInUser))
 })
 </script>
 

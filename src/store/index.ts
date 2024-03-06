@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
 import { shallowRef, ref } from "vue";
 
-import { Posts, Document } from "../components";
-import type { Post } from "../types";
+import { Posts, Document, SignUp, SignIn } from "../components";
+import type { Post, User } from "../types";
+import HttpRequests from "../server"
 
 export const useStore = defineStore("store", () => {
 
@@ -26,6 +27,14 @@ export const useStore = defineStore("store", () => {
         
         case "Document":
             displayingView.value = Document;
+            break;
+
+        case "SignUp":
+            displayingView.value = SignUp;
+            break;
+
+        case "SignIn":
+            displayingView.value = SignIn;
             break;
 
         default:
@@ -90,4 +99,39 @@ export const useStore = defineStore("store", () => {
     }
 
     return { displayingView, storagePosts, selectedPost, getStoragePosts, getStorageSelectedPost, toggleTheme };
+})
+
+
+export const useUsersStore = defineStore("store2", () => {
+
+    const users = ref<User[]>([]);
+
+    const loggedInUser = ref<User>();
+
+    const getAllUsers = async () => {
+        await HttpRequests.get("/users")
+        .then(response => users.value = response?.data)
+    }
+
+    const getSignedInUser = async () => {
+
+        const userUid = localStorage.getItem("loggedInUser");
+    
+        if(userUid) {
+            await getAllUsers()
+            .then(() => {
+                let foundUser: User | undefined = users.value.find(user => {
+                    if(user.uid === userUid) {
+                        return user;
+                    }
+                })
+    
+                if(foundUser) {
+                    loggedInUser.value = foundUser;
+                }
+            })
+        }
+    }
+
+    return { users, loggedInUser, getAllUsers, getSignedInUser };
 })

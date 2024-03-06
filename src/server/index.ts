@@ -1,8 +1,8 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://658354714d1ee97c6bcdd68f.mockapi.io/";
+axios.defaults.baseURL = "https://65e8b8bd4bb72f0a9c503a47.mockapi.io/";
 
-class HttpReqests {
+class HttpRequests {
 
     async get(url: string) {
         try {
@@ -37,4 +37,4 @@ class HttpReqests {
     }
 }
 
-export default new HttpReqests();
+export default new HttpRequests();
